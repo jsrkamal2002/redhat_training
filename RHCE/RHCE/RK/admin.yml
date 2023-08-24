@@ -1,0 +1,27 @@
+---
+- name: partition to create 2G
+  hosts: servera.lab.example.com,serverb.lab.example.com
+  tasks:
+  - name: Correct partitions exist on /dev/vdb
+    parted:
+      device: /dev/vdb
+      state: present
+      number:  1
+      part_end: 2048MiB
+  - name: Ensure Volume Groups Exist or Else Create
+    lvg:
+      vg: research
+      pvs: /dev/vdb1
+- name: partition to create 1G
+  hosts: serverc.lab.example.com
+  tasks:
+  - name: Correct partitions exist on /dev/vdb
+    parted:
+      device: /dev/vdb
+      state: present
+      number:  1
+      part_end: 1025MiB
+  - name: Ensure Volume Groups Exist or Else Create
+    lvg:
+      vg: research
+      pvs: /dev/vdb1

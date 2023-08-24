@@ -1,0 +1,7 @@
+#hwreport
+HOSTNAME=inventoryhost
+MEMORY=memtotal
+BIOS=biosversion
+CPU=processor
+DISK_SIZE_VDA=disk_size_vda
+DISK_SIZE_VDB=disk_size_vdb

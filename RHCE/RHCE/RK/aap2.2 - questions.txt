@@ -1,0 +1,218 @@
+                                        RHEL-9 RHCE EXAM MODEL PAPER
+                                                EX294
+                                                                                        Duration: 4Hrs
+                                                                                        Total Marks: 300
+
+Instructions:
+
+control node: 	workstaion.lab.example.com 
+
+managed node: 	servera.lab.example.com,
+		serverb.lab.example.com,
+		serverc.lab.example.com,
+		serverd.lab.example.com
+
+* All node root password is 'redhat' and Ansible control node user name is student and password student.
+
+* Create a directory 'ansible' under the path /home/student and all the playbook should be under /home/student/ansible.
+
+* All playbook should be owned/executed by student and Ansible managed node user name is devops.
+
+* Unless advised  password should be 'redhat' for all users 
+
+Ansible Automation Platform 2.2 is utility.lab.example.com
+Cridentials are admin, redhat 
+
+Note: In Exam, If they not given the Managed node user use the control node user as remote user
+___________________________________________________________________________________________________________
+
+1. Install and Configure Ansible on the control node as follows:
+
+  * Install the required packages.
+  * Create a static inventory file called /home/student/ansible/inventory as follows:
+          -- servera.lab.example.com is a member of the dev host group
+          -- serverb.lab.example.com is a member of the test host group
+          -- serverc.lab.example.com is a member of the prod host group
+          -- serverd.lab.example.com is a member of the balancers host group
+          -- The prod group is a member of the webservers host group
+  * Create a configuration file called ansible.cfg as follows:
+          -- The host inventory file /home/student/ansible/inventory is defined
+          -- The location of roles used in playbooks is defined as /home/student/ansible/roles
+          -- The location of collections used in playbooks is defined as /home/student/ansible/collections
+
+
+2. Create a playbook adhoc.yml for configuring repository in all nodes.
+
+  i) Name = baseos
+  Description = Baseos Description
+  Url = http://content/rhel9.0/x86_64/dvd/BaseOS
+  GPG is enabled.
+  Gpgkey = http://content.example.com/rhel9.0/x86_64/dvd/RPM-GPG-KEY-redhat-release
+  Repository is enabled.
+
+  ii) Name = appstream
+  Description = App Description
+  Url = http://content/rhel9.0/x86_64/dvd/AppStream
+  GPG is enabled.
+  Gpgkey = http://content.example.com/rhel9.0/x86_64/dvd/RPM-GPG-KEY-redhat-release
+  Repository is enabled.
+
+3. Installing the Collection.
+  i)   Create a directory "collections" under the /home/student/ansible.
+  ii)  Using the given url 'http://content/Rhce/' to install you collections
+  iii) You need to install these listed collection:
+         - ansible-1.0.tar.gz [only in exam]
+         - ansible-posix-1.4.0.tar.gz 
+         - redhat-rhel_system_roles-1.0.0.tar.gz 
+
+4. Installing the roles.
+  i)   Create a directory 'roles' under /home/student/ansible
+  ii)  Create a playbook named requirements.yml under the 'roles' directory and download the online roles under it using galaxy command.
+  iii) Role name should be balancer and download using this url http://content.example.com/Rhce/balancer.tar.gz
+  iv)  Role name should be phpinfo  and download using this url http://content.example.com/Rhce/phpinfo.tar.gz 
+
+5. Create an offline role named apache under 'roles' directory.
+
+  i)   Install httpd package and the service should be start and enable the httpd service.
+  ii)  Host the web page using the template.j2
+  iii) The template.j2 should contain as below,
+
+       My host is  HOSTNAME  on IPADDRESS
+
+       Note :- Where HOSTNAME is fully qualified domain name.
+  iv)  Create a playbook named apache_role.yml and run the role in dev group.
+
+6. Create a Playbook roles.yml for using the roles
+1) The playbook contains the balancer hosts for use balancer role
+    a) Browsing, the balancers host group with url http://serverd.lab.example.com that produce the output
+         "Welcome to servera.lab.example.com, (version 1.0)"
+    b) Refreshing, the balancers host group with the same url the output should be change
+         "Welcome to serverc.lab.example.com, (version 1.0)"
+
+2) The playbook contains the webservers host group for using the role phpinfo
+    a) Browsing, the webserver host group name that provides the output
+         "Welcome to serverc.lab.example.com, (version 1.0)"
+       and the output comes with various php contents
+    b) For example, the webserver host group with url http://serverc.lab.example.com that provides the output
+         "Welcome to serverc.lab.example.com, (version 1.0)"
+       and the output comes with various php contents
+    c) Similarly, the webserver hostgroup http://servera.lab.example.com that provides the output
+         "My host is servera.lab.example.com on 172.25.250.10
+
+
+7.1 Create a playbook name timesync.yml and use system roles
+
+  i)  Use ntp server 172.25.254.254 and enable iburst.
+  ii) Run this playbook on all the managed nodes. 
+
+
+7.2 Create a playbook name selinux.yml and use system roles
+  i)  Set the selinux mode as enforcing in all manage node 
+  ii) Set the selinux policy as targeted in all managed node 
+
+
+8. Install packages in multiple group.
+
+  i)   Install vsftpd and mariadb-server packages in dev and test group.
+  ii)  Install "RPM Development Tools" group package in prod group.
+  iii) Update all packages in dev group.
+  iv)  Use separate play for each task and playbook name should be packages.yml.
+
+
+9. Create a playbook webcontent.yml and it should run on dev group.
+
+  i)   Create a directory /devweb and it should be owned by devops group.
+  ii)  /devweb directory should have context type as "httpd" 
+  iii) Assign the permission for user=rwx,group=rwx,others=rx and group special permission should be applied to /devweb.
+  iv)  Create an index.html file under /devweb directory and the file should have the content "Developement".
+   v)  Link the /devweb directory to /var/www/html/devweb. 
+
+
+10. Collect hardware report using playbook in all nodes.
+
+  i)   Download the hwreport.txt from the url http://content.example.com/Rhce/hwreport.txt and save it under /root.
+  ii)  If there is no information it have to show "NONE".
+  iii) The playbook name should be hwreport.yml.
+ 
+__________________________________________________________________________________________________________________________
+
+Note: Copy the url "http://content.example.com/Rhce/hwreport.txt" and paste that on new tab and verify the content in it.
+__________________________________________________________________________________________________________________________
+
+
+
+11. Replace the file /etc/issue on all managed nodes.
+
+  i)   In dev  group /etc/issue file should have the content "Developement".
+  ii)  In test group /etc/issue file should have the content "Test".
+  iii) In prod group /etc/issue file should have the content "Production".
+  iv)  Playbook name issue.yml and run in all managed nodes.
+
+
+12. Download the file http://content.example.com/Rhce/myhosts.j2.
+
+  i)   myhosts.j2 file is having the content as below,
+
+  127.0.0.1 localhost.localdomain localhost
+  192.168.0.1 localhost.localdomain localhost
+
+  ii)  myhosts.j2 should collect all node information 
+       such as ipaddress,fqdn,hostname similar to /etc/hosts file.
+       if the playbook runs, then it must store information in /etc/myhosts file.
+
+  Finally /etc/myhosts file should contains the following information,
+
+  127.0.0.1 localhost.localdomain localhost
+  192.168.0.1 localhost.localdomain localhost
+
+  172.25.250.10 servera.lab.example.com servera
+  172.25.250.11 serverb.lab.example.com serverb
+  172.25.250.12 serverc.lab.example.com serverc
+  172.25.250.13 serverd.lab.example.com serverd
+
+  iii) Playbook name hosts.yml and run in dev group.
+
+
+
+13. Create a variable file vault.yml and that file should contains the variable and its value.
+
+  pw_developer is value lamdev
+  pw_manager is value lammgr
+
+  i)   The vault.yml file should be encrpted using the password "P@sswOrd".
+  ii)  Store the password in secret.txt file and which is used for encrypt the variable file.
+
+
+
+14. Download the variable file http://content.example.com/Rhce/user_list.yml and 
+    Playbook name users.yml and run in all nodes using two variable files user_list.yml and vault.yml
+  i)  * Create a group opsdev
+      * Create an user from users variable, who's job is equal to developer and need to be in opsdev group.
+      * Assign the password using SHA512 format and the user password is {{ pw_developer }}
+      * Run the playbook on dev and test host group.
+  ii) * Create a group opsmgr
+      * Create an user from users variable, who's job is equal to manager and need to be in opsmgr group.
+      * Assign the password using SHA512 format and the user password is {{ pw_manager }}
+      * Run the playbook on test host group.
+  iii)* Use when condition for each play.
+
+
+15. Rekey the variable file from http://content.example.com/Rhce/solaris.yml.
+
+  i)  Old password: cisco
+  ii) New password: redhat
+
+
+16. Create a cronjob for user student in all nodes, the playbook name crontab.yml and the job details are below
+  i) Every 2 minutes the job will execute logger  "EX294 in progress"
+
+
+17. Create a logical volume named data of 1500M size from the volume group research 
+     and if 1500M size is not created, then atleast it should create 800M size.
+
+  i)   Verify if vg not exist, then it should debug msg "vg not found" .
+  ii)  1500M lv size is not created, then it should debug msg "Insufficient size of vg" .
+  iii) If Logical volume is created, then assign file system as "ext3" .
+  iv)  Do not perform any mounting for this LV.
+  iv)  The playbook name lvm.yml and run the playbook in all nodes.
+

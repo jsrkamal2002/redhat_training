@@ -1,0 +1,7 @@
+# hardwarereport
+HOST= 
+MEMORY= 
+BIOS= 
+CPU= 
+DISK_SIZE_VDA= 
+DISK_SIZE_VDB= 
